@@ -11,11 +11,15 @@ if ($_SESSION['u_admin'] == 1){
 }else{
     include 'headerLogin.php';
 }
+$buttonName $_POST['button.name'];
+$sql = "SELECT *
+        FROM `vertertungen`
+        WHERE `vertretungen`.`v_id` = ".$buttonName."";
 ?>
 
-<h1>Antrag auf Vertretung</h1>
+<h1>Bearbeiten Antrag auf Vertretung</h1>
 
-<form action="processRequestAbsence.php" method="post">
+<form action="TODO.php" method="post">
 	Am :<input type="date" name="date"><br>
 	Schulstunden eintragen
 	<input type="text" name="from" 		placeholder="von" maxlength="2">

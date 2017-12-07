@@ -9,14 +9,6 @@ $result = mysqli_query($conn, $query);
 // var_dump($result);
 if ($conn->affected_rows >= 1) {
     ?>
-<!-- #TODO Ergebnisse filtern -->
-<p>Einstellungen zum Suchen</p>
-<form>
-	<input type="number" name="limit" placeholder="Anzahl der Ergebnisse"><br>
-	<input type="submit" name="update" value="Suchen">
-</form>
-
-<h2>Vertretungsplan</h2>
 
 <table>
 <thead>
@@ -30,8 +22,9 @@ if ($conn->affected_rows >= 1) {
   </thead>
 <tbody>
 <?php
+    $counter=1;
     while ($row = $result->fetch_assoc()) {
-        ?>
+?>
 	<tr>
 	<td><?php echo $row['v_date'];?></td>
 	<!-- #TODO display date in an easy readable way -->
@@ -45,16 +38,19 @@ if ($conn->affected_rows >= 1) {
         echo $status;
         ?></td>
 	<td>
-	<form>
-		<input type="submit" name="showData" value="Mehr anzeigen">
+	<form action="#<?php echo $counter?>">
+		<button>Mehr anzeigen</button>
 	</form>
+
 	<td>
-	</tr>
+	</tr>	
 <?php
+    $counter++; // increment counter
     }
-    ?>
+ ?>
  </tbody>   
 </table>
+
 
 <?php
 }

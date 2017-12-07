@@ -13,7 +13,6 @@ if ($_SESSION['u_admin'] == 1){
 }
 ?>
 
-
 <p>	Hallo 
 	<!-- Richtige Anrede -->
 	<?php if ($_SESSION['u_gender'] == "male"){

@@ -26,20 +26,23 @@ if (isset($_POST['submit'])) {
   $sub8       = mysqli_real_escape_string($conn, $_POST['sub8']);
   $id         = 0;
 
-  //Check if User wants to keep his oldPwd
-  if (empty($oldPwd) OR empty($keepPwd)){
-      header("Location: changeData.php?input=empty");
-  }else {
-      $pwd = $pwdRepeat = 1234; // to get around the password tests
-  }
-  //Error handlers #TODO Errormeldungen ausgeben
+  //Error handlers #TODO Errormeldungen ausgeben + colorize errors
   // Check for empty fields
   if (empty($username) OR empty($forename) OR empty($surname) OR
    empty($email) OR empty($sub1)) {
-     header("Location: changeData.php?signup=empty"); // #TODO echo/print + colorize errors
+     header("Location: changeData.php?signup=empty");
      exit();// Script stops here
   }
 
+  //Check for pssword changes
+  if (empty($oldPwd)){
+      header("Location: changeData.php?oldPw=empty");
+      exit();
+  }
+  if ($keepPwd == 1){
+      $pwd = $pwdRepeat = $oldPwd;
+  }
+  
   //Check for correct password
   if (empty($pwd) OR empty($pwdRepeat)) {
     header("Location: changeData.php?password=empty");
@@ -68,7 +71,7 @@ if (isset($_POST['submit'])) {
   }
 
   //Check if email/username is taken only when there was a change
-  $mailCheck = $_SESSION['u_email']
+  $mailCheck = $_SESSION['u_email'];
   if($email !== $mailCheck){
     $sql = "SELECT * FROM users WHERE user_username ='$username' OR user_email='$mailCheck'";
     $result = mysqli_query($conn, $sql);
@@ -79,11 +82,7 @@ if (isset($_POST['submit'])) {
   }
   }
   // Hashing the password
-  if ($keepPwd=1){
-      $hashedPwd = password_hash($oldPwd, PASSWORD_DEFAULT);
-  }else {
-      $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
-  }
+  $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
 
   //$admin in int parsen && Check if admin is  checked and admin password is correct
    boolval($admin) ? 'true' : 'false'; //#TODO codezeile verstehen
@@ -95,8 +94,9 @@ if (isset($_POST['submit'])) {
    }
 
   // Change Data the user to the database
-  $sql = "UPDATE `users`(`user_id`, `user_username`, `user_pwd`, `user_email`, `user_forename`, `user_surname`, `user_gender`, `user_admin`, `user_sub1`, `user_sub2`, `user_sub3`, `user_sub4`, `user_sub5`, `user_sub6`, `user_sub7`, `user_sub8`)
-          WHERE (user_id='$id', user_username='$username', user_pwd='$hashedPwd', user_email='$email', user_forename='$forename', user_surname='$surname', user_gender='$gender', user_admin='$admin', user_sub1='$sub1', user_sub2='$sub2', user_sub3='$sub3', user_sub4='$sub4', user_sub5='$sub5', user_sub6='$sub6', user_sub7='$sub7', user_sub8='$sub8')";
+  $sql = "UPDATE `users`
+          SET user_username='$username', user_pwd='$hashedPwd', user_email='$email', user_forename='$forename', user_surname='$surname', user_gender='$gender', user_admin='$admin', user_sub1='$sub1', user_sub2='$sub2', user_sub3='$sub3', user_sub4='$sub4', user_sub5='$sub5', user_sub6='$sub6', user_sub7='$sub7', user_sub8='$sub8'
+          WHERE user_id=".$_SESSION['u_id'];
   $result = mysqli_query($conn, $sql);
 
   header("Location: indexLogin.php?change=success");

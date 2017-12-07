@@ -1,16 +1,5 @@
 <?php
 session_start();
-//Check if user is allowed on this page
-if (empty($_SESSION['u_id'])) {
-    header("Location: index.php?notAllowed");
-    exit();
-}
-//Distingusish between admin and user
-if ($_SESSION['u_admin'] == 1){
-    include 'headerLoginAdmin.php';
-}else{
-    include 'headerLogin.php';
-}
 ?>
 
 <!DOCTYPE html>
@@ -18,28 +7,6 @@ if ($_SESSION['u_admin'] == 1){
   <head>
     <meta charset="utf-8">
     <title>Registrieren</title>
-    <script type='text/javascript'>
-		function addFields(){
-			var number 		= document.getElementById("sub").value; 	//How many fields can be generated
-			var container 	= document.getElementById("container");		//Container where content is placed
-			//clear previous content of the container #TODO WHY????? UNderstand clear part!!
-			while(container.hasChildNotes()){
-				container.removeChild(container.lastChild());
-			}
-			for(i=3; i<number; i++){	//i = 3 da erst ab sub 3 die Funktion verfügbar sein soll
-				//Text ausgeben
-				container.appendChild(document.createTextNode("Fach"+i));
-				//Create an input element
-				var input = document.createElement("input");
-				input.type="text";
-				input.name="sub"+i;
-				input.placeholder="Fach "+i;
-				container.appendChild(input); // input dem container hinzufügen
-
-				container.appendChild(document.createElement("br")); // break für die Formatierung
-			}
-		}
-    </script>
   </head>
   
   <body>

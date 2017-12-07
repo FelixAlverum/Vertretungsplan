@@ -14,13 +14,6 @@ if ($_SESSION['u_admin'] == 1){
 // #TODO TODO.php mit signup.inc.php bearbeiten anstatt einen neuenEintrag zu machen, Datensatz überschreiben
 ?>
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Daten ändern</title>
-  </head>
-  <body>
     <h1>Daten ändern</h1>
     <p>Erlaubte zeichen sind die Leertaste, a-z, A-Z und die Zahlen von 0-9 bei der Email Adresse und dem Passwort gilt das nicht</p>
     <form action="processChangeData.php" method="post">
@@ -88,15 +81,18 @@ if ($_SESSION['u_admin'] == 1){
       <?php }else {?>
       	  value="<?php echo $_SESSION['u_sub8'];?>"
       <?php }?>><br>
-      
-      <input type="button" name="addSub" value="Weiteres Fach hinzufügen"><br>
-	  <input type="checkbox" name="keepPwd"   value="1">Ich möchte mein altes Passwort behalten<br>
+      <input type="button" name="addSub" value="Weiteres Fach hinzufügen"><br> <!-- #TODO get this button working -->
+	  
       <input type="text" name="username" value="<?php echo $_SESSION['u_username'];?>"><br>
+      Passwort zum Bestätigen eintippen und "Daten ändern" drücken
       <input type="password" name="oldPwd" placeholder="Altes Passwort"><br>
-      <input type="password" name="pwd" placeholder="Passwort"><br>
-      <input type="password" name="pwdRepeat" placeholder="Passwort wiederholen"><br>
+      <input type="checkbox" name="keepPwd"   value="1">Ich möchte mein altes Passwort behalten<br>
+      <input type="password" name="pwd" placeholder="Neues Passwort"><br>
+      <input type="password" name="pwdRepeat" placeholder="Neues Passwort wiederholen"><br>
 
       <input type="submit" name="submit" value="Daten ändern">
     </form>
-  </body>
-</html>
+ 
+ <?php 
+ include 'footer.php';
+ ?>

@@ -1,28 +1,28 @@
 <?php
-//Check if user is allowed on this page
-if (empty($_SESSION['u_id'])) {
-    header("Location: index.php?notAllowed");
-    exit();
-}
 // -> check if he clicked the submit button
 if (isset($_POST['submit'])) {
     include_once 'includes/dbh.inc.php';
     session_start();
+    //Check if user is allowed on this page
+    if (empty($_SESSION['u_id'])) {
+        header("Location: index.php?notAllowed");
+        exit();
+    }
     
     // Set Vatiables as Strings
     $id = 0;
     $teacher_id = $_SESSION['u_id'];
-    $accepted = false;          // Der Antrag wurde vom Sekreteriat oder Abteilungsleiter bestätigt
-    $status = true;             // 0 = Entfall || 1 = Vertretung
-    $date = mysqli_real_escape_string($conn, $_POST['date']);
-    $from = mysqli_real_escape_string($conn, $_POST['from']);
-    $to = mysqli_real_escape_string($conn, $_POST['to']);
-    $class = mysqli_real_escape_string($conn, $_POST['class']);
-    $room = mysqli_real_escape_string($conn, $_POST['room']);
+    $accepted   = false;          // Der Antrag wurde vom Sekreteriat oder Abteilungsleiter bestätigt
+    $status     = true;           // 0 = Entfall || 1 = Vertretung
+    $date       = mysqli_real_escape_string($conn, $_POST['date']);
+    $from       = mysqli_real_escape_string($conn, $_POST['from']);
+    $to         = mysqli_real_escape_string($conn, $_POST['to']);
+    $class      = mysqli_real_escape_string($conn, $_POST['class']);
+    $room       = mysqli_real_escape_string($conn, $_POST['room']);
     $substitute = mysqli_real_escape_string($conn, $_POST['substitute']);
-    $subject = mysqli_real_escape_string($conn, $_POST['subject']);
-    $reason = mysqli_real_escape_string($conn, $_POST['reason']);
-    $comment = mysqli_real_escape_string($conn, $_POST['comment']);
+    $subject    = mysqli_real_escape_string($conn, $_POST['subject']);
+    $reason     = mysqli_real_escape_string($conn, $_POST['reason']);
+    $comment    = mysqli_real_escape_string($conn, $_POST['comment']);
     /*
      * echo "$date <br>";
      * echo "$from <br>";
@@ -50,7 +50,7 @@ if (! preg_match("/^[0-9]*$/", $from) or ! preg_match("/^[0-9]*$/", $to)) {
 }
 
 // Check if $from and $ to are not negative or 0
-if ($from <= 0 or $to <= 0) {
+if ($from <= 0 OR $to <= 0) {
     header("Location: requestAbsence.php?input=invalid");
     exit();
 }
@@ -63,11 +63,13 @@ if ($from > $to) {
 
 /* //#TODO korrekte angabe für today finden
  * Check if the date is today or in the future
-if ($date >= today ){ 
+ */
+$format='y.m.d';
+$now = time();
+if ($date.date($format) < $now.date($format)){ 
     header("Location: requestAbsence.php?invalidDate");
     exit();
 }
-*/
 
 // Check if input characters are valid
 #TODO check for äöü in preg_match
@@ -82,8 +84,8 @@ if (empty($substitute)){
 }
 
 // Vertretung in Datenbank einfügen
-$sql = "INSERT INTO `vertretungen`(`v_id`, `v_teacher_id`, `v_date`, `v_from`, `v_to`, `v_class`, `v_subject`, `v_status`, `v_comment`, `v_substitute`, `v_room`, `v_accepted`)
-          VALUES ('$id', '$teacher_id', '$date', '$from', '$to', '$class', '$subject', '$status', '$comment', '$substitute', '$room', '$accepted')";
+$sql = "INSERT INTO `vertretungen`(`v_id`, `v_teacher_id`, `v_date`, `v_from`, `v_to`, `v_class`, `v_subject`, `v_status`, `v_reason`, `v_comment`, `v_substitute`, `v_room`, `v_accepted`)
+          VALUES ('$id', '$teacher_id', '$date', '$from', '$to', '$class', '$subject', '$status', '$reason', '$comment', '$substitute', '$room', '$accepted')";
 $result = mysqli_query($conn, $sql);
 
 header("Location: indexLogin.php?sendtRequest");

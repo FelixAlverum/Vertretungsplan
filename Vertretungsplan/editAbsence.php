@@ -1,5 +1,5 @@
 <?php 
-sesseion_start();
+session_start();
 //Check if user is allowed on this page
 if (empty($_SESSION['u_id'])) {
     header("Location: index.php?notAllowed");
@@ -14,8 +14,10 @@ if ($_SESSION['u_admin'] == 1){
 
 include 'includes/dbh.inc.php';
 // TODO in mysqli umschreiben
-// TODO descending date order 
-$query = "SELECT * FROM `vertretungen` WHERE `vertretungen`.`v_teacher_id`=".$_SESSION['u_id'];
+$query = "SELECT * 
+          FROM `vertretungen` 
+          WHERE `vertretungen`.`v_teacher_id`= ".$_SESSION['u_id']."
+          ORDER BY `vertretungen`.`v_date`";
 $result = mysqli_query($conn, $query);
 // var_dump($result);
 if ($conn->affected_rows >= 1) {
@@ -38,18 +40,22 @@ if ($conn->affected_rows >= 1) {
     while ($row = $result->fetch_assoc()) {
         ?>
 	<tr>
-	<td><?php echo $row['v_date'];?></td>
+	<td><?php echo $row['v_date'] ?></td>
 	<!-- #TODO display date in an easy readable way -->
 	<td><?php echo $row['v_class'];?></td>
 	<td><?php echo $row['v_from'];?>-<?php echo $row['v_to'];?></td>
 	<td>
-	<form>
-		<input type="submit" name="deleteData" value="Löschen">
+	<form action="deleteAbsence.php" method="post">
+		<input type="submit" name="<?php echo $row['v_id']?>" value="Löschen">
+	</form>
+	</td>
+	<td>
+	<form action="changeDataSubstitute.php" method="post">	
 		<input type="submit" name="changeData" value="Bearbeiten">
 	</form>
 	<td>
 	</tr>
-<?php
+	<?php
     }
     ?>
  </tbody>   

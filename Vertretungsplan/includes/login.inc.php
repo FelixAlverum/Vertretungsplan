@@ -8,7 +8,7 @@ if (isset($_POST['submit'])) {
     $pwd = mysqli_real_escape_string($conn, $_POST['pwd']);
     
     // Weiterleiten zu signup.php
-    if ($username == "Anmeldung" and $pwd == "1234") {
+    if ($username == "Anmeldung" AND $pwd == "1234") {
         header("Location: ../signup.php");
         exit();
     }
