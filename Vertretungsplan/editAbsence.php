@@ -46,11 +46,13 @@ if ($conn->affected_rows >= 1) {
 	<td><?php echo $row['v_from'];?>-<?php echo $row['v_to'];?></td>
 	<td>
 	<form action="deleteAbsence.php" method="post">
-		<input type="submit" name="<?php echo $row['v_id']?>" value="Löschen">
+		<input type="hidden" name="passID" value="<?php echo $row['v_id']?>">
+		<input type="submit" value="Löschen">
 	</form>
 	</td>
 	<td>
-	<form action="changeDataSubstitute.php" method="post">	
+	<form action="changeDataSubstitute.php" method="post">
+		<input type="hidden" name="passID" value="<?php echo $row['v_id']?>">	
 		<input type="submit" name="changeData" value="Bearbeiten">
 	</form>
 	<td>

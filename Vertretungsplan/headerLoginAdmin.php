@@ -1,4 +1,9 @@
+<?php 
+include 'includes/dbh.inc.php';
+header('Content-type: text/html; charset=utf-8');
+?>
 <!DOCTYPE html>
+
 <html>
 
 <head>

@@ -7,7 +7,7 @@ include 'includes/dbh.inc.php';
 $query = "SELECT * FROM `vertretungen` ORDER BY `vertretungen`.`v_upload` DESC LIMIT 10";
 $result = mysqli_query($conn, $query);
 // var_dump($result);
-if ($conn->affected_rows >= 1) {
+
     ?>
 
 <table>
@@ -22,12 +22,11 @@ if ($conn->affected_rows >= 1) {
   </thead>
 <tbody>
 <?php
-    $counter=1;
-    while ($row = $result->fetch_assoc()) {
+if ($conn->affected_rows >= 1) {
+while ($row = $result->fetch_assoc()) {
 ?>
 	<tr>
-	<td><?php echo $row['v_date'];?></td>
-	<!-- #TODO display date in an easy readable way -->
+	<td><?php echo $row['v_date'];?></td>   <!-- #TODO display date in dd.mm.yyyy way -->
 	<td><?php echo $row['v_class'];?></td>
 	<td><?php echo $row['v_from'];?>-<?php echo $row['v_to'];?></td>
 	<td>
@@ -38,14 +37,14 @@ if ($conn->affected_rows >= 1) {
         echo $status;
         ?></td>
 	<td>
-	<form action="#<?php echo $counter?>">
-		<button>Mehr anzeigen</button>
+	<form action="TODO.php">
+		<input type="hidden" name="passID" value="<?php echo $row['v_id']; ?> ">
+		<input type="submit" name="displayShit" value="Mehr Anzeigen">
 	</form>
 
 	<td>
 	</tr>	
 <?php
-    $counter++; // increment counter
     }
  ?>
  </tbody>   

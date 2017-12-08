@@ -1,14 +1,19 @@
 <?php
-#TODO dosn't work
+#TODO question: Wollen sie wirklich löschen? |Ja |  | Nein|
 session_start();
+include_once 'includes/dbh.inc.php';
 if (empty($_SESSION['user_id'])){
     header("Location: index.php");
 }
+//get ID
+$v_id = $_POST['passID'];
+
+//delete the data
 $sql= " DELETE 
         FROM `vertretungen`
-        WHERE `vertretungen`.`v_teacher_id`= ".$_SESSION['u_id']."
-        ORDER BY `v_date` DESC
-        WHERE `vertretungen`.`v_id`= ".$_SESSION['number']."";
+        WHERE `v_id`= ".$v_id."";
 $result = mysqli_query($conn, $query);
+
+// go back
 header("Location: indexLogin.php?deleted");
 ?>
