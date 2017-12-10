@@ -1,12 +1,10 @@
-<?php
-include 'header.php';
-include 'includes/dbh.inc.php';
+<?php 
+include 'headerLoginAdmin.php';
 
-// TODO in mysqli umschreiben
-// TODO limit variabel machen
-$query = "SELECT * FROM `vertretungen` ORDER BY `vertretungen`.`v_upload` DESC LIMIT 10";
-$result = mysqli_query($conn, $query);
-// var_dump($result);
+$sql="  SELECT * 
+        FROM `vertretungen` 
+        WHERE `v_accepted`=0";
+$result = mysqli_query($conn, $query);;
 ?>
 
 <table>
@@ -16,6 +14,7 @@ $result = mysqli_query($conn, $query);
       <th>Klasse</th>
       <th>Stunde</th>
       <th>Status</th>
+      <th></th>
       <th></th>
     </tr>
   </thead>
@@ -42,7 +41,13 @@ while ($row = $result->fetch_assoc()) {
 		<input type="hidden" name="passID" 		value="<?php echo $row['v_id']; ?> ">
 		<input type="submit" name="displayShit" value="Mehr Anzeigen">
 	</form>
-
+	<td>
+	
+	<td>
+	<form action="TODO.php" method="post">
+		<input type="hidden" name="passID" 		value="<?php echo $row['v_id']; ?> ">
+		<input type="submit" name="displayShit" value="Bestaetigen">
+	</form>
 	<td>
 	</tr>	
 <?php

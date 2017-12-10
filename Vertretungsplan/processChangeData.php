@@ -73,11 +73,14 @@ if (isset($_POST['submit'])) {
   //Check if email/username is taken only when there was a change
   $mailCheck = $_SESSION['u_email'];
   if($email !== $mailCheck){
-    $sql = "SELECT * FROM users WHERE user_username ='$username' OR user_email='$mailCheck'";
+    $sql = "SELECT * 
+            FROM users 
+            WHERE user_username = $username 
+            OR user_email= $mailCheck";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
     if ($resultCheck > 0) {
-        header("Location: changeData.php?signup=EmailORusernameTaken");
+        header("Location: changeData.php?signup=EmailOrUsernameTaken");
         exit();
   }
   }
@@ -95,7 +98,17 @@ if (isset($_POST['submit'])) {
 
   // Change Data the user to the database
   $sql = "UPDATE `users`
-          SET user_username='$username', user_pwd='$hashedPwd', user_email='$email', user_forename='$forename', user_surname='$surname', user_gender='$gender', user_admin='$admin', user_sub1='$sub1', user_sub2='$sub2', user_sub3='$sub3', user_sub4='$sub4', user_sub5='$sub5', user_sub6='$sub6', user_sub7='$sub7', user_sub8='$sub8'
+          SET   user_username='$username', 
+                user_pwd='$hashedPwd', 
+                user_email='$email', 
+                user_forename='$forename', 
+                user_surname='$surname', 
+                user_gender='$gender', 
+                user_admin='$admin', 
+                user_sub1='$sub1',          user_sub2='$sub2', 
+                user_sub3='$sub3',          user_sub4='$sub4', 
+                user_sub5='$sub5',          user_sub6='$sub6', 
+                user_sub7='$sub7',          user_sub8='$sub8'
           WHERE user_id=".$_SESSION['u_id'];
   $result = mysqli_query($conn, $sql);
 

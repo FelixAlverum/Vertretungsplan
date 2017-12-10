@@ -92,6 +92,7 @@ if ($_SESSION['u_admin'] == 1){
 
       <input type="submit" name="submit" value="Daten ändern">
     </form>
+    <p>Erst nach dem Ausloggen werden die Daten übernommen</p>
  
  <?php 
  include 'footer.php';

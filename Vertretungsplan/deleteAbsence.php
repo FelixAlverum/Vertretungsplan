@@ -12,7 +12,7 @@ $v_id = $_POST['passID'];
 $sql= " DELETE 
         FROM `vertretungen`
         WHERE `v_id`= ".$v_id."";
-$result = mysqli_query($conn, $query);
+$result = mysqli_query($conn, $sql);
 
 // go back
 header("Location: indexLogin.php?deleted");
