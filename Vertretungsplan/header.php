@@ -34,8 +34,8 @@ header('Content-type: text/html; charset=utf-8');
     <div class="search">
 	<!-- #TODO Ergebnisse filtern -->
 	<p>Einstellungen zum Suchen</p>
-	<form>
-		<input type="number" name="limit" placeholder="Anzahl der Ergebnisse"><br>
+	<form action="search.php" method="post">
+		<input type="date" name="date" ><br>
 		<input type="submit" name="update" value="Suchen">
 	</form>
 	</div>

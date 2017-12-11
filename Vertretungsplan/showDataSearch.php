@@ -26,8 +26,9 @@ Bestätigt: <?php $status2 = "Nein";
             echo $status2; ?>
 
 
-<form action="index.php" method="post">
-	<input type="submit" value="Zurück zur Hauptseite">
+<form action="search.php" method="post">
+	<input type="hidden" name="date" value="<?php echo $row['v_date'];?>">
+	<input type="submit" value="Zurück">
 </form>
 <?php 
 include 'footer.php';

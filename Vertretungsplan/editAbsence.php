@@ -14,10 +14,11 @@ if ($_SESSION['u_admin'] == 1){
 
 include 'includes/dbh.inc.php';
 // TODO in mysqli umschreiben
+$u_id=$_SESSION['u_id'];
 $query = "SELECT * 
           FROM `vertretungen` 
-          WHERE `vertretungen`.`v_teacher_id`= ".$_SESSION['u_id']."
-          ORDER BY `vertretungen`.`v_date`";
+          WHERE `v_teacher_id`= '$u_id'
+          ORDER BY `vertretungen`.`v_date` DESC";
 $result = mysqli_query($conn, $query);
 // var_dump($result);
 if ($conn->affected_rows >= 1) {
@@ -66,6 +67,8 @@ if ($conn->affected_rows >= 1) {
 
 
 <?php 
-}
+}else { ?>
+    <p> <?php echo "Sie haben keine Anträge auf Vertretung";?> </p>
+<?php } 
 include 'footer.php';
 ?>

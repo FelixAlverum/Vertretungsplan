@@ -4,7 +4,12 @@ include 'includes/dbh.inc.php';
 
 // TODO in mysqli umschreiben
 // TODO limit variabel machen
-$query = "SELECT * FROM `vertretungen` ORDER BY `vertretungen`.`v_upload` DESC LIMIT 10";
+$date = $_POST['date'];
+$query = "  SELECT *
+            FROM `vertretungen`
+            WHERE `vertretungen`.`v_date`= '$date'
+            ORDER BY `vertretungen`.`v_upload`
+            DESC LIMIT 50";
 $result = mysqli_query($conn, $query);
 //var_dump($result);
 if ($conn->affected_rows >= 1) {
@@ -38,7 +43,7 @@ while ($row = $result->fetch_assoc()) {
         echo $status;
         ?></td>
 	<td>
-	<form action="showData.php" method="post">
+	<form action="showDataSearch.php" method="post">
 		<input type="hidden" name="passID" 		value="<?php echo $row['v_id']; ?> ">
 		<input type="submit" name="displayShit" value="Mehr Anzeigen">
 	</form>

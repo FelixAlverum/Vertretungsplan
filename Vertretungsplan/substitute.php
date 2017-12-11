@@ -14,15 +14,16 @@ if ($_SESSION['u_admin'] == 1){
 
 include 'includes/dbh.inc.php';
 // TODO in mysqli umschreiben
+$name = $_SESSION['u_surname'];
 $query = "SELECT *
           FROM `vertretungen`
-          WHERE `vertretungen`.`v_accepted`=0";
+          WHERE `v_substitute`= '$name'";
 $result = mysqli_query($conn, $query);
 // var_dump($result);
 if ($conn->affected_rows >= 1) {
     ?>
 
-<h1>Abwesenheit/Entfall ablehnen / bestätigen</h1>
+<h1>Abwesenheit / Vertretung ablehnen oder bestätigen</h1>
 
 <table>
 <thead>
@@ -45,22 +46,12 @@ if ($conn->affected_rows >= 1) {
 	<td><?php echo $row['v_class'];?></td>
 	<td><?php echo $row['v_from'];?>-<?php echo $row['v_to'];?></td>
 	<td>
-	<form action="showDataAbsence.php" method="post">
+	<form action="showDataLogin.php" method="post">
 		<input type="hidden" name="passID" value="<?php echo $row['v_id']?>">
 		<input type="submit" value="Zeige alle Daten + Bearbeiten">
 	</form>
 	</td>
-	<td>
-	<form action="reject.php" method="post">
-		<input type="hidden" name="passID" value="<?php echo $row['v_id']?>">
-		<input type="submit" value="Ablehnen">
-	</form>
-	</td>
-	<td>
-	<form action="accept.php" method="post">
-		<input type="hidden" name="passID" value="<?php echo $row['v_id']?>">	
-		<input type="submit" name="changeData" value="Annehmen">
-	</form>
+	
 	<td>
 	</tr>
 	<?php
@@ -73,7 +64,7 @@ if ($conn->affected_rows >= 1) {
 
 <?php 
 }else {
-    echo "Es muss nichts bestätigt werden";
+    echo "Es muss nichts vertreten werden";
 }
 include 'footer.php';
 ?>

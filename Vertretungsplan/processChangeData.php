@@ -87,12 +87,16 @@ if (isset($_POST['submit'])) {
   // Hashing the password
   $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
 
-  //$admin in int parsen && Check if admin is  checked and admin password is correct
-   boolval($admin) ? 'true' : 'false'; //#TODO codezeile verstehen
+  //Check if admin is  checked and admin password is correct
+   $admin = (bool) $admin;
+   $oldAdmin= (bool)($_SESSION['admin']);
+   var_dump($admin);
    if ($admin === true) {
-     if ($_POST['pwAdmin'] !== "1234") {
-       header("Location: changeData.php?password=unequal");
-       exit();
+     if ($admin != $oldAdmin){  
+        if ($_POST['pwAdmin'] !== "1234") {
+            header("Location: changeData.php?password=unequal");
+            exit();
+        }
      }
    }
 
