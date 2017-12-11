@@ -1,0 +1,76 @@
+<!DOCTYPE php>
+<html>
+
+<head>
+
+<meta Charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="login.css">
+  </link>
+
+</head>
+
+
+<body>
+
+
+
+    <div class="headerbox">
+      <h1 id="headerline">Online Vertretungsplan BSZ</h1>
+
+
+      <img id="logo" src="images/logo.jpg" alt="sdsd">
+
+    </div>
+
+
+
+
+      <div class="box2">
+
+        <form action="indexLogin.php" method="post">
+    			<input type="submit" value="Zurück">
+          </form>
+        </div>
+
+
+
+        <div class="box3">
+
+          <form action="requestAbsence.php" method="post">
+      			<input type="submit" name="requestAbsence" value="Antrag erstellen"> <br>
+      		</form>
+
+      		<form action="editAbsence.php" method="post">
+      			<input type="submit" name="editAbsence" value="Anträge bearbeiten"><br>
+      		</form>
+
+      		<form action="TODO.php" method="post">
+      			<input type="submit" name="substitute" value="Vertretungen">
+      		</form>
+
+          <form action="changeData.php" method="post">
+            <input type="submit" name="changeData" value="Daten ändern">
+          </form>
+
+          <form action="includes/logout.inc.php" method="post">
+            <input type="submit" name="logout" value="Logout">
+          </form>
+
+        </div>
+
+
+
+      <div class="footerbox">
+        <br>
+        <h5>&copy; BSZ Bietigheim</h5>
+      </div>
+
+
+
+
+
+</body>
+
+
+
+</html>

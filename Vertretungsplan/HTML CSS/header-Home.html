@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <link rel="stylesheet" type="text/css" href="home.css">
+  </link>
+
+</head>
+
+
+<body>
+
+
+
+
+    <div class="headerbox">
+
+      <h1 id="headerline">Online Vertretungsplan BSZ</h1>
+
+
+      <img id="logo" src="images/logo.jpg" alt="sdsd">
+
+    </div>
+
+
+
+
+      <div class="box2">
+
+
+
+          <h3>  Login:</h3>
+          <ul id="login">
+
+            <br>
+          <input type="text" name="loginname" placeholder="Name" size="15" maxlength="255">
+          <br>
+          <input  type="password" name="loginpassword" placeholder="Passwort" size="15" maxlength="255">
+          <br>
+          <button id="btLogin" type="submit" name="loginclick">Login</button>
+          </ul>
+
+        </div>
+
+
+
+        <div class="box3">
+<h3>  Suchen:</h3>
+<ul>
+          <h5>Datum</h5>
+          <input type="date" name="Datum">
+<br><br>
+
+          <h5>Schule</h5>
+          <select >
+        <option value="metall">Metall</option>
+        <option value="elektro">Elektro</option>
+        <option value="kaufmänisch">Kaufm&auml;nnisch</option>
+        <option value="mittelstufe">Mittelstufe</option>
+        <option value="oberstufe">Oberstufe</option>
+      </select>
+
+      <br><br>
+
+             <h5>Klasse</h5>
+          <select name="Klasse">
+        <option value="tgitm13">TGITM-13</option>
+        <option value="wgi13">WGI-13</option>
+      </select>
+
+      <br><br>
+
+          <button onclick="postROW()" type="button" name="searchclick">Suchen</button>
+
+          <script type="text/javascript">
+          function postROW(){
+
+          var table = document.getElementById("atable");
+          var row = table.insertRow();
+            row.className = "postrow"
+          var klasse1 = row.insertCell(0);
+          var stunde1 = row.insertCell(1);
+          var fach1 = row.insertCell(2);
+          var vertretung1 = row.insertCell(3);
+          var bemerkung1 = row.insertCell(4);
+
+          klasse1.innerHTML = "<?php echo $row['v_class'];?>";
+          stunde1.innerHTML = "<?php echo $row['v_from'];?>-<?php echo $row['v_to'];?>" ;
+          fach1.innerHTML="lalal";
+          vertretung1.innerHTML="lala";
+          bemerkung1.innerHTML="phpzeugs"
+          }
+          </script>
+
+
+</ul>
+        </div>
+
+
+
+      <div class="footerbox">
+        <br>
+        <h5>&copy; BSZ Bietigheim</h5>
+      </div>
+
+
+
+
+
+
+</body>
+
+
+
+</html>
