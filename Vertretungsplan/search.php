@@ -56,10 +56,13 @@ while ($row = $result->fetch_assoc()) {
  </tbody>   
 </table>
 
-
 <?php
 }else {
     echo "Alle Unterrichtseinheiten finden wie geplant statt!";
-}
+}?>
+<form action="index.php" method="post">
+	<input type="submit" value="Zurück zum Vertretungsplan">
+</form>
+<?php 
 include_once 'footer.php';
 ?>

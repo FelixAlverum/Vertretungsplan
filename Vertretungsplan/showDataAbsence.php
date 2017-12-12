@@ -94,6 +94,9 @@ $row = $result->fetch_assoc();
 	Maximal 2000 Zeichen:<br> <!-- #TODO Zeichenzähler!!!! -->
 	<textarea name ="comment" 			placeholder="Kommentar"><?php echo $row['v_comment'];?></textarea><br> <!-- #TODO CSS feste Maße + schön formatieren -->
 	
+	 <input type="radio" name="substitute2" value="1" checked> Vertretung
+     <input type="radio" name="substitute2" value="0"> Entfall <br>
+	
 	<input type="submit" name="submit" value="Speichern">
 </form>
 

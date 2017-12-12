@@ -45,7 +45,7 @@ header('Content-type: text/html; charset=utf-8');
 		<input type="submit" name="confirmAbscence" value="Vertretungen bestätigen">
 	</form>
 	
-	<form action="TODO.php" method="post">
+	<form action="differentAbsence.php" method="post">
 		<input type="submit" name="reqestAbsenceNotMe" value="Vertretung für anderen Lehrer eintragen">
 	</form>
 	</div>

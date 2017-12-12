@@ -1,7 +1,7 @@
 <?php
 // -> check if he clicked the submit button
 if (isset($_POST['submit'])) {
-    include 'includes/dbh.inc.php';
+    include_once 'includes/dbh.inc.php';
     session_start();
     //Check if user is allowed on this page
     if (empty($_SESSION['u_id'])) {
@@ -10,11 +10,10 @@ if (isset($_POST['submit'])) {
     }
     
     // Set Vatiables as Strings
-    $v_id = $_POST["passID"]; // id auslesen
     $id = 0;
-    $teacher_id = $_SESSION['u_id'];
+    $teacher_name = mysqli_real_escape_string($conn, $_POST['missingTeacher']);
     $accepted   = false;          // Der Antrag wurde vom Sekreteriat oder Abteilungsleiter bestätigt
-    $status     = $_POST['substitute2'];           // 0 = Entfall || 1 = Vertretung
+    $status     = true;           // 0 = Entfall || 1 = Vertretung
     $date       = mysqli_real_escape_string($conn, $_POST['date']);
     $from       = mysqli_real_escape_string($conn, $_POST['from']);
     $to         = mysqli_real_escape_string($conn, $_POST['to']);
@@ -40,42 +39,36 @@ if (isset($_POST['submit'])) {
     // Error handlers # TODO Errormeldungen ausgeben
     // Check for empty fields
     if (empty($date) or empty($from) or empty($to) or empty($class) or empty($subject) or empty($reason)) {
-        header("Location: requestAbsence.php?input=empty");
+        header("Location: differentAbsence.php?input=empty");
         exit();
     }
     
     // Check if $from and $to are numbers
     if (! preg_match("/^[0-9]*$/", $from) or ! preg_match("/^[0-9]*$/", $to)) {
-        header("Location: requestAbsence.php?input=invalid");
+        header("Location: differentAbsence.php?input=invalid");
         exit();
     }
     
     // Check if $from and $ to are not negative or 0
     if ($from <= 0 OR $to <= 0) {
-        header("Location: requestAbsence.php?input=invalid");
+        header("Location: differentAbsence.php?input=invalid");
         exit();
     }
     
     // Check if form < to
     if ($from > $to) {
-        header("Location: requestAbsence.php?from>to");
+        header("Location: differentAbsence.php?from>to");
         exit();
     }
     
     /* //#TODO korrekte angabe für today finden
      * Check if the date is today or in the future
      */
-    $format='d.m.y';
-    $now = time();
-    if ($date.date($format) < $now.date($format)){
-        header("Location: requestAbsence.php?invalidDate");
-        exit();
-    }
+    var_dump();
+    var_dump(time());
     
-    // Check if input characters are valid
-    #TODO check for äöü in preg_match
-    if (! preg_match("/^[a-zA-Z0-9 \s]*$/", $class) or ! preg_match("/^[a-zA-Zäöü0-9 \s]*$/", $reason) or ! preg_match("/^[a-zA-Zäöü0-9 \s]*$/", $comment)) {
-        header("Location: requestAbsence.php?input=invalid");
+    if (strtotime($date) < time()){
+        header("Location: differentAbsence.php?invalidDate");
         exit();
     }
     
@@ -84,24 +77,36 @@ if (isset($_POST['submit'])) {
         $substitute = "Unbekannt";
     }
     
+    //get Teacher_id
+    $sql1=" SELECT `user_id`
+            FROM `users`
+            WHERE `user_email`='$teacher_name'";
+    var_dump($sql1);
+    $result1=mysqli_query($conn, $sql1);
+    var_dump($result1);
+    $row = $result1->fetch_assoc();
+    $teacher_id = $row['user_id'];
+    
+    //check if teacher teaches the reqestet subject
+    $correctSubject=false;
+    for($i=1; $i<9; $i++){
+        if ($row['user_sub'+$i] == $subject);{
+            $correctSubject=true;
+        }
+    }
+    if ($correctSubject== false){
+        header("Location: differentAbsence.php?wrongSubject");
+        exit();
+    }
+    
     // Vertretung in Datenbank einfügen
-    $sql = "UPDATE `vertretungen`
-            SET `v_date`          = '$date',
-                `v_from`          = '$from',
-                `v_to`            = '$to',
-                `v_class`         = '$class',
-                `v_subject`       = '$subject',
-                `v_room`          = '$room',
-                `v_substitute`    = '$substitute',
-                `v_reason`        = '$reason',
-                `v_comment`       = '$comment',
-                `v_status`        = '$status',
-                `v_accepted`      = '$accepted'
-            WHERE `v_id` = '$v_id' ;";
+    $sql = "INSERT INTO `vertretungen`(`v_id`, `v_teacher_id`, `v_date`, `v_from`, `v_to`, `v_class`, `v_subject`, `v_status`, `v_reason`, `v_comment`, `v_substitute`, `v_room`, `v_accepted`)
+          VALUES ('$id', '$teacher_id', '$date', '$from', '$to', '$class', '$subject', '$status', '$reason', '$comment', '$substitute', '$room', '$accepted')";
     $result = mysqli_query($conn, $sql);
-   header("Location: confirmAbsence.php?dataChanged");
+    
+    header("Location: indexLogin.php?sendtRequest");
     exit();
-
+    
 }else{
     header("Location: indexLogin.php?AccesDenied");
     exit();
